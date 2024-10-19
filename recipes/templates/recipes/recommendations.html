@@ -1,0 +1,43 @@
+<!-- templates/recipes/recommendations.html -->
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Recipe Site{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	
+</head>
+<body>
+    <!-- templates/recipes/recommendations.html -->
+
+{% block content %}
+<div class="container">
+    <h1>Recipes for your ingredients</h1>
+    
+    <form method="post" action="{% url 'recommendations_search' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="ingredients">Enter ingredients (comma-separated):</label>
+            <input type="text" class="form-control" id="ingredients" name="ingredients" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    
+    <ul class="list-group">
+        {% for recipe in recommendations %}
+        <li class="list-group-item">
+            <h2>{{ recipe.title }}</h2>
+            <p>{{ recipe.description }}</p>
+            <p>Ingredients: {{ recipe.ingredients }}</p>
+            <p>Instructions: {{ recipe.instructions }}</p>
+            <p>Average Rating: {{ recipe.average_rating }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+</body>
+</html>
